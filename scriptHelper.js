@@ -30,29 +30,27 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
 
 // PART 2.2
  function formSubmission(document, faultyItemsDiv, pilot, copilot, fuelLevel, cargoMass) {
-       // Get form elements
+// create variables that check the input using the validateInput function
+  let checkPilot = validateInput(pilot);
+  let checkCopilot = validateInput(copilot);
+  let checkFuel = validateInput(fuelLevel);
+  let checkCargo = validateInput(cargoMass);
 
-  let pilotEmpty = validateInput(pilot) === "Empty";
-  let copilotEmpty = validateInput(copilot) === "Empty";
-  let fuelEmpty = validateInput(fuelLevel) === "Empty";
-  let cargoEmpty = validateInput(cargoMass) === "Empty";
+// create "Empty" variables for if/else statements
+  let emptyInput = checkPilot === "Empty" || checkCopilot === "Empty" || checkFuel === "Empty" || (checkCargo === "Empty");
 
-  let pilotValid = validateInput(pilot) === "Not a Number";
-  let copilotValid = validateInput(copilot) === "Not a Number";
-  let fuelValid = validateInput(fuelLevel) === "Is a Number";
-  let cargoValid = validateInput(cargoMass) === "Is a Number";
-
+  // Get form elements to update innerHTML in the if/else statements
   const launchStatus = document.getElementById('launchStatus');
   const pilotStatus = document.getElementById('pilotStatus');
   const copilotStatus = document.getElementById('copilotStatus');
   const fuelStatus = document.getElementById('fuelStatus');
   const cargoStatus = document.getElementById('cargoStatus');
 
-  if (pilotEmpty || copilotEmpty || fuelEmpty || cargoEmpty) {
+  if (emptyInput) {
     launchStatus.style.color = "inherit";
     launchStatus.innerHTML = "Awaiting Information Before Launch";
     alert("All fields are required!");
-  } else if (!pilotValid || !copilotValid || !fuelValid || !cargoValid) {
+  } else if (!(checkPilot === "Not a Number") || !(checkCopilot === "Not a Number") || !(checkFuel === "Is a Number") || !(checkCargo === "Is a Number") ) {
     launchStatus.style.color = "inherit";
     launchStatus.innerHTML = "Awaiting Information Before Launch";
     alert("Make sure to enter valid information for each field!");
@@ -74,13 +72,13 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
 
     if (fuelLevel < 10000 || cargoMass > 10000) {
       faultyItemsDiv.style.visibility = "visible";
-      launchStatus.style.color = "red";
       launchStatus.innerHTML = "Shuttle Not Ready for Launch"
+      launchStatus.style.color = "red";
     } else {
       //
       faultyItemsDiv.style.visibility = "visible";
-      launchStatus.style.color = "green";
       launchStatus.innerHTML = "Shuttle is Ready for Launch"
+      launchStatus.style.color = "green";
     }
   }
  } 
